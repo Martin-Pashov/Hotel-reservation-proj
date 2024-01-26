@@ -1,3 +1,59 @@
+let reservation =
+{
+    startDate: null,
+    endDate: null,
+    guestsCount: 0,
+    roomType: null,
+    name: null,
+    phone: null,
+    email: null
+}
+
+function changeContent(className) {
+    document.querySelectorAll('.custom-form').forEach(div => div.classList.add('hidden'));
+    if( document.querySelector(`.${className}`) != null){
+    document.querySelector(`.${className}`).classList.remove('hidden');
+    }
+}
+
+document.querySelector('#new-reservation').addEventListener('click', (e) => cleanData(e));
+
+function cleanData(e) {
+    changeContent('search-form-content');
+}
+
+
+changeContent('search-form-content');
+document.querySelector('#search-form-button').addEventListener('click', (e) => searchFormData(e));
+
+function searchFormData(e) {
+    e.preventDefault();
+    const data = e.target.parentElement;
+    const checkIn = data.querySelector('#check-in').value;
+    const checkOut = data.querySelector('#check-out').value;
+    const peopleInput = data.querySelector('#people');
+    const peopleWarning = data.querySelector('#people-warning'); // Add this line
+    const people = peopleInput.value;
+
+    if (people > 25) {
+        peopleWarning.textContent = "Max people is 25"; // Show warning message
+        return; // Do not proceed with the reservation
+    }
+
+    peopleWarning.textContent = ""; // Clear the warning message
+
+    if (checkIn != '' && checkOut != '' && people != '' &&
+        new Date(checkIn) <= new Date(checkOut)) {
+        reservation.startDate = checkIn;
+        reservation.endDate = checkOut;
+        reservation.guestsCount = people;
+        console.log(reservation);
+        changeContent('search-result-form-content');
+    }
+}
+
+// Offerer
+
 document.querySelector('#search-back-btn').addEventListener('click', (e) => fillSearchForm(e));
 
 function fillSearchForm(e) {
@@ -66,21 +122,9 @@ function getPersonalData(e) {
         fillConfirmReservationData(reservation);
     }
 }
-
-
-//* Verifier
+/*
 // Confirm Reservation
-function fillConfirmReservationData(customReservation) {
-    document.querySelector('.confirm-reservation #guest-name').textContent = `Name: ${customReservation.name}`;
-    document.querySelector('.confirm-reservation #guest-phone').textContent = `Phone Number: ${customReservation.phone}`;
-    document.querySelector('.confirm-reservation #guest-email').textContent = `Email: ${customReservation.email}`;
-    document.querySelector('.confirm-reservation #guest-room-type').textContent = `Room Type: ${customReservation.roomType}`;
-    document.querySelector('.confirm-reservation #guest-data-in').textContent = `Date-in: ${customReservation.startDate}`;
-    document.querySelector('.confirm-reservation #guest-data-out').textContent = `Date-out: ${customReservation.endDate}`;
-}
 
-
-// Thank you page
 document.querySelector('#confirm-back-btn').addEventListener('click', (e) => getBackToPersonalData(e));
 
 function getBackToPersonalData(e) {
@@ -94,4 +138,13 @@ function showThanksPage(e) {
     e.preventDefault();
     changeContent('thank-you-content');
 }
+*/
 
+function fillConfirmReservationData(customReservation) {
+    document.querySelector('.confirm-reservation #guest-name').textContent = `Name: ${customReservation.name}`;
+    document.querySelector('.confirm-reservation #guest-phone').textContent = `Phone Number: ${customReservation.phone}`;
+    document.querySelector('.confirm-reservation #guest-email').textContent = `Email: ${customReservation.email}`;
+    document.querySelector('.confirm-reservation #guest-room-type').textContent = `Room Type: ${customReservation.roomType}`;
+    document.querySelector('.confirm-reservation #guest-data-in').textContent = `Date-in: ${customReservation.startDate}`;
+    document.querySelector('.confirm-reservation #guest-data-out').textContent = `Date-out: ${customReservation.endDate}`;
+}
