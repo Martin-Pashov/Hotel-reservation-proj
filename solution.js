@@ -59,14 +59,6 @@ function searchFormData(e) {
     }
 }
 
-function fillConfirmReservationData(customReservation) {
-    document.querySelector('.confirm-reservation #guest-name').textContent = `Name: ${customReservation.name}`;
-    document.querySelector('.confirm-reservation #guest-phone').textContent = `Phone Number: ${customReservation.phone}`;
-    document.querySelector('.confirm-reservation #guest-email').textContent = `Email: ${customReservation.email}`;
-    document.querySelector('.confirm-reservation #guest-room-type').textContent = `Room Type: ${customReservation.roomType}`;
-    document.querySelector('.confirm-reservation #guest-data-in').textContent = `Date-in: ${customReservation.startDate}`;
-    document.querySelector('.confirm-reservation #guest-data-out').textContent = `Date-out: ${customReservation.endDate}`;
-}
 
 // Offerer
 
@@ -138,6 +130,7 @@ function getPersonalData(e) {
         fillConfirmReservationData(reservation);
     }
 }
+
 
 //* Verifier
 // Confirm Reservation
