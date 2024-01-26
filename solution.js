@@ -7,6 +7,34 @@ function fillSearchForm(e) {
     document.querySelector('#check-out').value = reservation.endDate;
     document.querySelector('#people').value = reservation.guestsCount;
 }
+changeContent('search-form-content');
+document.querySelector('#search-form-button').addEventListener('click', (e) => searchFormData(e));
+
+function searchFormData(e) {
+    e.preventDefault();
+    const data = e.target.parentElement;
+    const checkIn = data.querySelector('#check-in').value;
+    const checkOut = data.querySelector('#check-out').value;
+    const peopleInput = data.querySelector('#people');
+    const peopleWarning = data.querySelector('#people-warning'); // Add this line
+    const people = peopleInput.value;
+
+    if (people > 25) {
+        peopleWarning.textContent = "Max people is 25"; // Show warning message
+        return; // Do not proceed with the reservation
+    }
+
+    peopleWarning.textContent = ""; // Clear the warning message
+
+    if (checkIn != '' && checkOut != '' && people != '' &&
+        new Date(checkIn) <= new Date(checkOut)) {
+        reservation.startDate = checkIn;
+        reservation.endDate = checkOut;
+        reservation.guestsCount = people;
+        console.log(reservation);
+        changeContent('search-result-form-content');
+    }
+}
 
 
 document.querySelectorAll('.room-type').forEach(room => {
