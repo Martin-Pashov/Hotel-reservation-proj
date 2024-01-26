@@ -22,6 +22,13 @@ function cleanData(e) {
     changeContent('search-form-content');
 }
 
+document.querySelector('#guest-details-back-btn').addEventListener('click', (e) => fillRoomForm(e));
+
+function fillRoomForm(e) {
+    e.preventDefault();
+    changeContent('search-result-form-content');
+}
+
 
 changeContent('search-form-content');
 document.querySelector('#search-form-button').addEventListener('click', (e) => searchFormData(e));
@@ -31,7 +38,17 @@ function searchFormData(e) {
     const data = e.target.parentElement;
     const checkIn = data.querySelector('#check-in').value;
     const checkOut = data.querySelector('#check-out').value;
-    const people = data.querySelector('#people').value;
+    const peopleInput = data.querySelector('#people');
+    const peopleWarning = data.querySelector('#people-warning'); // Add this line
+    const people = peopleInput.value;
+
+    if (people > 25) {
+        peopleWarning.textContent = "Max people is 25"; // Show warning message
+        return; // Do not proceed with the reservation
+    }
+
+    peopleWarning.textContent = ""; // Clear the warning message
+
     if (checkIn != '' && checkOut != '' && people != '' &&
         new Date(checkIn) <= new Date(checkOut)) {
         reservation.startDate = checkIn;
@@ -42,6 +59,14 @@ function searchFormData(e) {
     }
 }
 
+function fillConfirmReservationData(customReservation) {
+    document.querySelector('.confirm-reservation #guest-name').textContent = `Name: ${customReservation.name}`;
+    document.querySelector('.confirm-reservation #guest-phone').textContent = `Phone Number: ${customReservation.phone}`;
+    document.querySelector('.confirm-reservation #guest-email').textContent = `Email: ${customReservation.email}`;
+    document.querySelector('.confirm-reservation #guest-room-type').textContent = `Room Type: ${customReservation.roomType}`;
+    document.querySelector('.confirm-reservation #guest-data-in').textContent = `Date-in: ${customReservation.startDate}`;
+    document.querySelector('.confirm-reservation #guest-data-out').textContent = `Date-out: ${customReservation.endDate}`;
+}
 
 // Offerer
 
@@ -113,7 +138,6 @@ function getPersonalData(e) {
         fillConfirmReservationData(reservation);
     }
 }
-
 
 //* Verifier
 // Confirm Reservation
